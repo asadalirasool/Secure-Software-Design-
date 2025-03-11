@@ -98,7 +98,7 @@ We welcome contributions! Follow these steps:
 5. Open a pull request.
 
 ## 📬 Contact
-For any queries, reach out at [your email] or create an issue in the repository.
+For any queries, reach out at [asadali.rasool@gmail.com] or create an issue in the repository.
 
 ---
 🔐 **Stay secure! Use strong passwords & encrypt your data!** 🚀
