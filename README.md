@@ -1,105 +1,94 @@
-# Secure Password Manager
+# Secure Password Manager Chrome Extension
 
-## 📌 Project Overview
-The **Secure Password Manager** is a **desktop/web-based application** designed to securely store, manage, and retrieve user credentials. It ensures **strong encryption, authentication, and access control**, helping users protect their sensitive information from cyber threats.
+A secure password manager Chrome extension with JWT authentication and encrypted storage.
 
-## 🚀 Features
-- 🔑 **Secure Authentication** (Master Password with PBKDF2/Argon2 Hashing)
-- 🔒 **AES-256 Encryption** for storing passwords
-- 🔐 **Role-Based Access Control (RBAC)** for multi-user scenarios
-- 🛡️ **Brute Force Protection** (Account Lockout Mechanism)
-- 📝 **Password Generator** for strong passwords
-- 📋 **Secure Clipboard Handling** to prevent keylogging attacks
-- ⏳ **Auto Logout** after inactivity
+## Features
 
-## 🏗️ Tech Stack
-### **Frontend:**
-- 🖥️ **Desktop App:** Python (Tkinter/PyQt)
-- 🌐 **Web App:** HTML, CSS, JavaScript (React.js optional)
+- 🔐 Secure user authentication with JWT
+- 🔒 Encrypted password storage
+- 🌐 Automatic form filling
+- 📋 Secure clipboard management
+- ⏱️ Auto-logout after inactivity
+- 🛡️ Master password protection
 
-### **Backend:**
-- 🐍 **Python (Flask/Django)** or 🟢 **Node.js (Express.js)**
+## Setup
 
-### **Database:**
-- 🗄️ **SQLite/MySQL** (Encrypted Storage)
+### Backend Setup
 
-## 🔍 Security Measures
-- **Strong Password Hashing:** PBKDF2 or Argon2 for master password
-- **Data Encryption:** AES-256 encryption for secure storage
-- **Secure API Endpoints:** JWT authentication for web access
-- **Input Validation:** Protection against SQL Injection & XSS
-- **Penetration Testing:** Using OWASP ZAP & Burp Suite
-
-## 📂 Folder Structure
-```
-📦 Secure-Password-Manager
- ┣ 📂 backend
- ┃ ┣ 📜 app.py  # Flask/Node.js backend
- ┃ ┣ 📜 database.db  # SQLite database
- ┃ ┗ 📜 requirements.txt  # Dependencies
- ┣ 📂 frontend
- ┃ ┣ 📜 index.html  # UI
- ┃ ┣ 📜 style.css  # Styling
- ┃ ┣ 📜 script.js  # JS functionality
- ┃ ┗ 📜 main.py  # Tkinter/PyQt App
- ┣ 📜 README.md  # Documentation
- ┣ 📜 .gitignore  # Git Ignore file
- ┗ 📜 LICENSE  # License file
-```
-
-## 🛠️ Installation & Setup
-### **1️⃣ Clone the Repository**
+1. Install Python dependencies:
 ```bash
-  git clone https://github.com/asadali.rasool/Secure-Password-Manager.git
-  cd Secure-Password-Manager
+pip install flask flask-cors pyjwt bcrypt python-dotenv cryptography
 ```
 
-### **2️⃣ Install Dependencies**
-For Python (Flask Backend):
+2. Configure environment variables:
+   - Copy `.env.example` to `.env`
+   - Update the secret keys in `.env` with secure values
+
+3. Run the Flask backend:
 ```bash
-  pip install -r backend/requirements.txt
+python app.py
 ```
 
-For Node.js (Express Backend):
-```bash
-  cd backend && npm install
+### Chrome Extension Setup
+
+1. Open Chrome and navigate to `chrome://extensions/`
+2. Enable "Developer mode" in the top right
+3. Click "Load unpacked" and select the extension directory
+4. The extension icon should appear in your Chrome toolbar
+
+## Security Features
+
+- Passwords are hashed using bcrypt
+- Credentials are encrypted using Fernet (symmetric encryption)
+- JWT tokens for secure authentication
+- Auto-clearing clipboard after 10 seconds
+- 5-minute inactivity timeout
+- Master password required for first use
+
+## API Endpoints
+
+- `POST /register` - Register a new user
+- `POST /login` - Login and get JWT token
+- `POST /save_credentials` - Save new credentials (requires JWT)
+- `GET /get_credentials` - Get all saved credentials (requires JWT)
+- `DELETE /delete_credentials/<id>` - Delete specific credentials (requires JWT)
+
+## Development
+
+### Project Structure
+
+```
+password_manager_extension/
+├── manifest.json
+├── popup.html
+├── popup.js
+├── background.js
+├── styles.css
+└── icons/
+    └── icon128.png
+
+backend/
+├── app.py
+├── auth.py
+├── vault.py
+└── .env
 ```
 
-### **3️⃣ Run the Application**
-For Python Flask:
-```bash
-  python backend/app.py
-```
-For Node.js:
-```bash
-  node backend/app.js
-```
+### Security Considerations
 
-### **4️⃣ Access the Web App**
-```
-http://localhost:5000
-```
+1. Never commit the `.env` file
+2. Use strong, unique keys for JWT and master encryption
+3. Keep the extension and backend up to date
+4. Regularly audit the code for security vulnerabilities
 
-## 🧪 Testing & Security Analysis
-Run security testing tools:
-```bash
-  owasp-zap-cli quick-scan http://localhost:5000
-```
+## Contributing
 
-## 📜 License
-This project is licensed under the **MIT License**.
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
-## 🤝 Contributing
-We welcome contributions! Follow these steps:
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature-xyz`).
-3. Commit your changes (`git commit -m 'Added new feature'`).
-4. Push to your fork (`git push origin feature-xyz`).
-5. Open a pull request.
+## License
 
-## 📬 Contact
-For any queries, reach out at [asadali.rasool@gmail.com] or create an issue in the repository.
-
----
-🔐 **Stay secure! Use strong passwords & encrypt your data!** 🚀
-
+MIT License - see LICENSE file for details 
