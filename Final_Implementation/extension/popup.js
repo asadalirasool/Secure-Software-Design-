@@ -9,6 +9,8 @@ const appSection = document.getElementById('app-section');
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 const credentialsList = document.getElementById('credentials-list');
+const statusDiv = document.getElementById('status');
+const actionButton = document.getElementById('actionButton');
 
 // State
 let inactivityTimer;
@@ -203,74 +205,43 @@ async function loadCredentials() {
 }
 
 // Event Listeners
-document.addEventListener('DOMContentLoaded', () => {
-    // Check if user is logged in
-    const token = localStorage.getItem('jwt');
-    if (token) {
-        showApp();
-    }
-
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.form-container').forEach(form => form.classList.remove('active'));
-            
-            button.classList.add('active');
-            document.getElementById(`${button.dataset.tab}-form`).classList.add('active');
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const response = await fetch('http://localhost:5000/get_current_user', {
+            method: 'GET',
+            credentials: 'include'
         });
-    });
+        const data = await response.json();
 
-    // Register form submission
-    document.getElementById('register-btn').addEventListener('click', async () => {
-        const username = document.getElementById('reg-username').value;
-        const password = document.getElementById('reg-password').value;
-        const name = document.getElementById('reg-name').value;
-        const age = parseInt(document.getElementById('reg-age').value);
-        const phone = document.getElementById('reg-phone').value;
-
-        if (!username || !password || !name || !age || !phone) {
-            showError('All fields are required');
-            return;
+        if (data.logged_in) {
+            statusDiv.textContent = `Logged in as: ${data.email}`;
+            statusDiv.className = 'status logged-in';
+            actionButton.textContent = 'Logout';
+            actionButton.className = 'button logout-button';
+            actionButton.onclick = () => {
+                fetch('http://localhost:5000/logout', {
+                    method: 'GET',
+                    credentials: 'include'
+                }).then(() => {
+                    window.location.reload();
+                });
+            };
+        } else {
+            statusDiv.textContent = 'Not logged in';
+            statusDiv.className = 'status logged-out';
+            actionButton.textContent = 'Login';
+            actionButton.className = 'button login-button';
+            actionButton.onclick = () => {
+                window.open('http://localhost:5000', '_blank');
+            };
         }
-
-        await register(username, password, name, age, phone);
-    });
-
-    // Login form submission
-    document.getElementById('login-btn').addEventListener('click', async () => {
-        const username = document.getElementById('login-username').value;
-        const password = document.getElementById('login-password').value;
-
-        try {
-            await login(username, password);
-            showApp();
-        } catch (error) {
-            showError('Login failed');
-        }
-    });
-
-    // Logout button
-    document.getElementById('logout-btn').addEventListener('click', logout);
-
-    // Save credentials form
-    document.getElementById('save-btn').addEventListener('click', async () => {
-        const websiteUrl = document.getElementById('website-url').value;
-        const username = document.getElementById('website-username').value;
-        const password = document.getElementById('website-password').value;
-
-        try {
-            await saveCredentials(websiteUrl, username, password);
-            loadCredentials();
-            document.getElementById('website-url').value = '';
-            document.getElementById('website-username').value = '';
-            document.getElementById('website-password').value = '';
-        } catch (error) {
-            showError('Failed to save credentials');
-        }
-    });
-
-    // Reset inactivity timer on user interaction
-    document.addEventListener('mousemove', resetInactivityTimer);
-    document.addEventListener('keypress', resetInactivityTimer);
+    } catch (error) {
+        statusDiv.textContent = 'Error connecting to server';
+        statusDiv.className = 'status logged-out';
+        actionButton.textContent = 'Login';
+        actionButton.className = 'button login-button';
+        actionButton.onclick = () => {
+            window.open('http://localhost:5000', '_blank');
+        };
+    }
 }); 

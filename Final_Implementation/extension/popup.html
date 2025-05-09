@@ -2,58 +2,46 @@
 <html>
 <head>
     <title>Password Manager</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            width: 300px;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+        .status {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .logged-in {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .logged-out {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .button {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .login-button {
+            background-color: #007bff;
+            color: white;
+        }
+        .logout-button {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Login/Register Section -->
-        <div id="auth-section">
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="login">Login</button>
-                <button class="tab-btn" data-tab="register">Register</button>
-            </div>
-            
-            <div id="login-form" class="form-container active">
-                <h2>Login</h2>
-                <input type="text" id="login-username" placeholder="Username" required>
-                <input type="password" id="login-password" placeholder="Password" required>
-                <button id="login-btn">Login</button>
-            </div>
-
-            <div id="register-form" class="form-container">
-                <h3>Register</h3>
-                <input type="text" id="reg-username" placeholder="Username" required>
-                <input type="password" id="reg-password" placeholder="Password" required>
-                <input type="text" id="reg-name" placeholder="Full Name" required>
-                <input type="number" id="reg-age" placeholder="Age" required>
-                <input type="tel" id="reg-phone" placeholder="Phone Number" required>
-                <button id="register-btn">Register</button>
-            </div>
-        </div>
-
-        <!-- Main App Section (Hidden initially) -->
-        <div id="app-section" style="display: none;">
-            <div class="header">
-                <h2>Password Manager</h2>
-                <button id="logout-btn">Logout</button>
-            </div>
-
-            <!-- Save Credentials Form -->
-            <div class="save-credentials">
-                <h3>Save New Credentials</h3>
-                <input type="text" id="website-url" placeholder="Website URL" required>
-                <input type="text" id="website-username" placeholder="Username" required>
-                <input type="password" id="website-password" placeholder="Password" required>
-                <button id="save-btn">Save Credentials</button>
-            </div>
-
-            <!-- List of Saved Credentials -->
-            <div class="saved-credentials">
-                <h3>Saved Credentials</h3>
-                <div id="credentials-list"></div>
-            </div>
-        </div>
-    </div>
+    <div id="status" class="status"></div>
+    <button id="actionButton" class="button"></button>
     <script src="popup.js"></script>
 </body>
 </html> 
